@@ -1,214 +1,212 @@
-## BusinessCards
+## Cards
 
-## Business cards [/BusinessCards]
-BusinessCards endpoint allows you to add, edit, delete, retrieve cards. Responses will be returned in JSON format only.
+## Cards [/cards]
+Cards endpoint allows you to add, edit, delete, retrieve cards for business. Responses will be returned in JSON format only.
 
-### BusinessCards
-Payment as a resource represents following information
+### Cards
+cards for business as a resource represents following information
 
 | Property | Type | As request | As response | Description |
 | :-------------------- | :---------- | :-------------------- | :-------------------- | ------------------------------------------------------------ |
-| id | String | `Mandatory` | `Returned always` | It is the Identifier which is required to track the payment which is being made for the particular card. |
+| id | String | `Optional` | `Returned always` | It is the save card Identifier for the particular card that is either being added, deleted or edited in SAP. |
 | holderName | String | `Manadatory` | `Returned always` | It is the card holder name. |
 | cardNo | String |`Optional` | `Returned always` | It represents the card number. |
 | cvv | String | `Mandatory` | `Returned always` | It represents the secured card number. |
 | cardExpiryMonth | String | `Returned always` | It is the card expiry month. |
 | crdExpiryYear | String | `Returned always` | It is the card expiry year. |
-| saveCardId | String | `Returned always` | It is the identifier for the card that has been saved in SAP. |
 | cardType | String | `Returned always` | It represents the card type.|
 | priorityCardIndicator | String | `Returned always` | It is a flag of the card that identifies whether a priority card or not for the customer.|
 
+`Note:` This card endpoint should be hit before payment response is being invoked for making a payment.
 
 
+## Retrieve cards [GET /cards] - Card Details found
 
-### Use cases
-
-##Retrieve cards [GET/cards] - Card Details found
-
-	#Response 200 (application/json)
-		{
-			"status": "SUCCESS",
-				"data": {
-					"cards": [
-						{
-							"id": "987654321",
-							"holderName": "test",
-							"cardType": "001",
-							"cardNumber": "00505683065B1EE78EF34A3F0BD0AF4C",
-							"expiryMonth": "09",
-							"expiryYear": "18",
-							"saveCardID": "00505683065B1EE78EF34A3F0BD0AF4C",
-							"cvv": "123",
-							"priorityCard": "Y"
-						}
-					]
-				},
-			"errors": {}
-		}
+### Header
+	GET /cards
+	Authorization: Bearer {accesstoken}
+	cid: 05e230bf-a9cf-4b31-bc54-d3a995f62526
 	
-##Retrieve cards [GET/cards] - No cards available
+### Response 200 (application/json)
 
-	#Response 200 (application/json)
-			{
-				"status": "SUCCESS",
-					"data": {
-						"cards": []
-							},
-				"errors": {}
-			}
+```json
+	{
+		"status": "SUCCESS",
+			"data": {
+				"cards": [
+					{
+					"id": "00505683065B1EE78EF34A3F0BD0AF4C",
+					"holderName": "test",
+					"cardType": "001",
+					"cardNumber": "xxxxxxxxxxxx8695",
+					"expiryMonth": "09",
+					"expiryYear": "18",
+					"cvv": "123",
+					"priorityCard": "Y"
+					}
+				]
+			},
+		"errors": {}
+	}
+```
+## Retrieve cards [GET /cards] - No cards available
 
-### Retrieve specific card details [GET /cards/{id}]
+### Response 200 (application/json)
+```json
+	{
+		"status": "SUCCESS",
+			"data": {
+				"cards": []
+			},
+		"errors": {}
+	}
+```
 
-+ Parameters
+## Retrieve specific card detail [GET /cards/{id}]
 
-    + id: 00505683065B1EE78EF34A3F0BD0AF4C (string) - SaveCardId
+### Parameters
 
-+ Response 200 (application/json)
+    id: 00505683065B1EE78EF34A3F0BD0AF4C (string) - SaveCardId
 
+### Response 200 (application/json)
+```json
 	{
 		"status": "SUCCESS",
 			"data": {
 					"card": {
-						"id": "987654321",
+						"id": "00505683065B1EE78EF34A3F0BD0AF4C",
 						"holderName": "test",
 						"cardType": "001",
 						"cardNumber": "xxxxxxxxxxxx8695",
 						"expiryMonth": "09",
-						"expiryYear": "17",
-						"saveCardID": "00505683065B1EE78EF34A3F0BD0AF4C",
+						"expiryYear": "17",						
 						"cvv": "123",
 						"priorityCard": "Y"
 					}
 			},
 		"errors": {}
 	}
-			
-### Save card Detail [POST /cards] - Card added successfully
-+ Request
+```			
+## Save card Detail [POST /cards] - Card added successfully
+### Request
 
-	 + Body
-
-		{
+```json
+	{
+	"card": {
+		"holderName": "test",
+		"cardType": "001",
+		"cardNumber": "xxxxxxxxxxxx8695",
+		"expiryMonth": "09",
+		"expiryYear": "17",
+		"cvv": "123",
+		"priorityCard": "Y"
+	},
+	"meta": {}
+	}
+```
+### Response 200 (application/json)
+```json
+	{
+	"status": "SUCCESS",
+		"data": {
 			"card": {
-						"holderName": "test",
-						"cardType": "001",
-						"cardNumber": "xxxxxxxxxxxx8695",
-						"expiryMonth": "09",
-						"expiryYear": "17",
-						"cvv": "123",
-						"priorityCard": "Y"
-					},
-			"meta": {}
-		}
-
-+ Response 200 (application/json)
-
-		{
-			"status": "SUCCESS",
-				"data": {
-					"card": {
-							"id": "00505683065B1EE78EF34A3F0BD0AF4C",
-							"holderName": "test",
-							"cardType": "001",
-							"cardNumber": "xxxxxxxxxxxx8695",
-							"expiryMonth": "09",
-							"expiryYear": "17",
-							"cvv": "123",
-							"priorityCard": "Y"
-							}
-				 },
-			"errors": {}
-		}
-### Save card Detail [POST /cards] - Card already exist	
-	
-	+ Request	
-		+ Headers
-
-           
-		+ Body
-
-			{
-              "card": {
-						"holderName":"test",
-						"cardType":"001",
-						"cardNumber":"5eeBZ++aHquYp2pmYseO9W3r+1zginDfYs8KsFfHVBk=",
-						"expiryMonth":"05",
-						"expiryYear":"17",
-						"cvv":"123",
-						"priorityCard":"Y"               
-				},
-            }
-	
-	+ Response 400 (application/json)
-
-        {
-			"status": "FAIL",
-			"data": {},
-			"errors": [
-				{
-					"code": "card",
-					"message": "error.card.already.available"
+				"id": "00505683065B1EE78EF34A3F0BD0AF4C",
+				"holderName": "test",
+				"cardType": "001",
+				"cardNumber": "xxxxxxxxxxxx8695",
+				"expiryMonth": "09",
+				"expiryYear": "17",
+				"cvv": "123",
+				"priorityCard": "Y"
 				}
-			],
-			"meta": {}
-		}
-### Save card Detail [POST /cards] - Service unavailable	
+		 },
+	"errors": {}
+	}
+```
+## Error scenarios
+## Case 1: Save card Detail [POST /cards] - Card already exist	
 	
-	+ Request	
-		+ Headers
-
-           
-		+ Body
-
+### Request	
+ ```json          
+	{
+	"card": {
+		"holderName":"test",
+		"cardType":"001",
+		"cardNumber":"5eeBZ++aHquYp2pmYseO9W3r+1zginDfYs8KsFfHVBk=",
+		"expiryMonth":"05",
+		"expiryYear":"17",
+		"cvv":"123",
+		"priorityCard":"Y"               
+	},
+	}
+```	
+### Response 400 (application/json)
+```json
+	{
+	"status": "FAIL",
+	"data": {},
+		"errors": [
 			{
-              "card": {
-						"holderName":"test",
-						"cardType":"001",
-						"cardNumber":"5eeBZ++aHquYp2pmYseO9W3r+1zginDfYs8KsFfHVBk=",
-						"expiryMonth":"05",
-						"expiryYear":"20",
-						"cvv":"123",
-						"priorityCard":"Y"
-						},             
-            }
+			"code": "card",
+			"message": "error.card.already.available"
+			}
+		],
+	"meta": {}
+	}
+```
+## Case 2: Save card Detail [POST /cards] - Service unavailable	
 	
-	+ Response 500 (application/json)
-
-        {
-			"status": "FAIL",
-				"data": {},
-				"errors": [
-					{
-						"code": "Service unavailable",
-						"message": "error.sap.pi.operation.failure"
-					}
-				]
-		}
-	
-### Edit card Detail [PUT/cards] - Card information changed successfully
-+ Request
+### Request
+```json
+	{
+	"card": {
+		"holderName":"test",
+		"cardType":"001",
+		"cardNumber":"5eeBZ++aHquYp2pmYseO9W3r+1zginDfYs8KsFfHVBk=",
+		"expiryMonth":"05",
+		"expiryYear":"20",
+		"cvv":"123",
+		"priorityCard":"Y"
+	},             
+	}
+```	
+### Response 500 (application/json)
+```json
+	{
+	"status": "FAIL",
+	"data": {},
+		"errors": [
+			{
+			"code": "Service unavailable",
+			"message": "error.sap.pi.operation.failure"
+			}
+		]
+	}
+```	
+## Case 3: Edit card Detail [PUT /cards] - Card information changed successfully
+### Request
       
-	 + Body
-
-			{
-              "card": {
-						"holderName":"test",
-						"cardType":"001",
-						"cardNumber":"5eeBZ++aHquYp2pmYseO9W3r+1zginDfYs8KsFfHVBk=",
-						"expiryMonth":"05",
-						"expiryYear":"20",
-						"cvv":"123",
-						"priorityCard":"Y"			                
-				},             
-            }
-
-+ Response 200 (application/json)
-
+```json
+	{
+	"card": {
+		"id":"00505683065B1EE78EF34A3F0BD0AF4C";
+		"holderName":"test",
+		"cardType":"001",
+		"cardNumber":"5eeBZ++aHquYp2pmYseO9W3r+1zginDfYs8KsFfHVBk=",
+		"expiryMonth":"05",
+		"expiryYear":"20",
+		"cvv":"123",
+		"priorityCard":"Y"			                
+	},             
+	}
+```
+### Response 200 (application/json)
+```json
 	{
     "status": "SUCCESS",
 		"data": {
 			"card": {
-				"id": "24564758",
+				"id": "00505683065B1EE78EF34A3F0BD0AF4C",
 				"holderName": "test",
 				"cardType": "001",
 				"cardNumber": "5eeBZ++aHquYp2pmYseO9W3r+1zginDfYs8KsFfHVBk=",
@@ -221,17 +219,17 @@ Payment as a resource represents following information
 		"errors": {}
 	}
 
+```	
 	
-	
-### Delete card Detail [DELETE /cards/{id}] - Deleting Card information
+## Case 4: Delete card Detail [DELETE /cards/{id}] - Deleting Card information
 
-+ Parameters
+### Parameters
 
-    + id: 00505683065B1EE78EF34A3F0BD0AF4C (string) - SaveCardId
+    id: 00505683065B1EE78EF34A3F0BD0AF4C (string) - SaveCardId
 
 
-+ Response 200 (application/json)
-
+### Response 200 (application/json)
+```json
 	{
     "status": "SUCCESS",
 		"data": {
@@ -241,13 +239,13 @@ Payment as a resource represents following information
 		},
     "errors": {}
 	}
+```	
+## Errors from backend
 	
-### Error from backend
-	
-+ Request 'Error from SAP'
+## Case 5: Request 'Error from SAP'
 
-+ Response 500 (application/json)
-
+### Response 500 (application/json)
+```json
         {
             "status": "ERROR",
             "data": {},
@@ -259,13 +257,13 @@ Payment as a resource represents following information
             ],
             "meta": {}
         }
-	
-### Card details not valid	
+```	
+## Case 6: Card details not valid	
 
-+ Request 'Card number is blank'
+### Request 'Card number is blank'
 
-+ Response 400 (application/json)
-
+### Response 400 (application/json)
+```json
             {
                 "status": "FAIL",
                 "data": {},
@@ -277,14 +275,14 @@ Payment as a resource represents following information
                 ],
                 "meta": {}
             }
+```			
 			
-			
-### Card details not valid	
+## Case 7: Card details not valid	
 
-+ Request 'Invalid card number'
+### Request 'Invalid card number'
 
-+ Response 400 (application/json)
-
+### Response 400 (application/json)
+```json
             {
                 "status": "FAIL",
                 "data": {},
@@ -296,3 +294,4 @@ Payment as a resource represents following information
                 ],
                 "meta": {}
             }
+```
