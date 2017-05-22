@@ -19,7 +19,7 @@ Payment as a resource represents following information
 `Note`: When the error code returned from the SAP for payment failure status is either of DCCARD_1 ... DCCARD_16 values error code 500 will be returned from the endpoint.
 
 ## POST /payments - logged in payment
-	post opration
+	post operation on /payments is used to make a payment for logged in customer.
 		
 ### Headers
 	POST /payments
@@ -32,7 +32,7 @@ Payment as a resource represents following information
         "Payment": {
             "card": "42563574674",                
             "amount": "58.00",
-            "contractAccount": "600134652",
+            "contractAccount": "600134652"
           }
       }
 ```
@@ -43,8 +43,10 @@ Payment as a resource represents following information
         "status": "SUCCESS",
             "data": {
                 "Payment": {
-		    "id": "003400026738",
-                    "contractAccount": "600134652",                
+			"id": "003400026738",
+			"card": "42563574674",
+			"amount": "58.00",
+			"contractAccount": "600134652"                
                 }
             },
         "errors": [],
@@ -53,20 +55,19 @@ Payment as a resource represents following information
 ```
 
 ## POST /payments - anonymous payment
-	post operation
+	post operation on /payments is used to make a payment for anonymous payment.
 ### Headers
 	POST /payments
-	Authorization: Bearer {accesstoken}
 	cid: 05e230bf-a9cf-4b31-bc54-d3a995f62526
 			
 ### Request (application/json)
   ```json
   {
         "Payment": {
-		"account": "600134652",
+		"contractAccount": "600134652",
 		"postcode": "LE4 5EX",
-		"card": "42563574674",                
-		"amount": "58.00",           
+		"card": "42563574674",    
+		"amount": "58.00"     
           }
       }
 ```
@@ -78,7 +79,10 @@ Payment as a resource represents following information
             "data": {
                 "Payment": {
 		    "id": "003400026738",
-                    "accountNumber": "600134652",                    
+                    "contractAccount": "600134652",
+		    "postcode": "LE4 5EX",
+		    "card": "42563574674",
+		    "amount": "58.00"
                 }
             },
         "errors": [],
@@ -101,8 +105,7 @@ Payment as a resource represents following information
         "Payment": {          
 		"card": "1434552445",                
 		"amount": "58.00",
-		"accountNumber": "600134652",
-		"paymentDocumentNumber": "47875899"
+		"accountNumber": "600134652"
           }
       }
 ```
@@ -136,8 +139,7 @@ Payment as a resource represents following information
         "Payment": {          
 		"card": "1434552445",                
 		"amount": "58.00",
-		"accountNumber": "600134652",
-		"paymentDocumentNumber": "47875899"
+		"accountNumber": "600134652"
           }
       }
 ```
