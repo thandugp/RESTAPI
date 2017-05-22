@@ -189,7 +189,7 @@ cards for business as a resource represents following information
 ```json
 	{
 	"card": {
-		"id":"00505683065B1EE78EF34A3F0BD0AF4C";
+		"id":"00505683065B1EE78EF34A3F0BD0AF4C",
 		"holderName":"test",
 		"cardType":"001",
 		"cardNumber":"5eeBZ++aHquYp2pmYseO9W3r+1zginDfYs8KsFfHVBk=",
