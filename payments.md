@@ -1,16 +1,15 @@
 ## payment
 
 ## payment [/payment]
-payments endpoint allows you to make a Payment anonymously or by logging in for Britishgas business customers. Responses will be returned in JSON format only.
+payment endpoint allows you to make a Payment anonymously or by logging in for Britishgas business customers. Responses will be returned in JSON format only.
 
 ### payment
 payment as a resource represents following information
 
 | Property | Type | As request | As response | Description |
 | :-------------------- | :---------- | :-------------------- | :-------------------- | ------------------------------------------------------------ |
-| id | String | `Mandatory` | `Returned always` | It is the payment document number considered as identifier for payment transaction.|
+| id | String | `Not Required` | `Returned always` | It is the payment document number considered as identifier for payment transaction.|
 | card | String | `Manadatory` | `Returned always` | It is the card identifier used for making payment. |
-| postcode | String | 'Optional' | 'Returned always' | It is the post code which is required for making anonymous payment. |
 | amount | int | `Mandatory` | `Returned always` | It is the amount the customer wish to pay. |
 | contractAccount | String | `Returned always` | It is the account for which the customer is making a payment. |
 
@@ -65,7 +64,6 @@ payment as a resource represents following information
   {
         "payment": {
 		"contractAccount": "600134652",
-		"postcode": "LE4 5EX",
 		"card": "42563574674",    
 		"amount": "58.00"     
           }
@@ -80,7 +78,6 @@ payment as a resource represents following information
                 "payment": {
 		    "id": "003400026738",
                     "contractAccount": "600134652",
-		    "postcode": "LE4 5EX",
 		    "card": "42563574674",
 		    "amount": "58.00"
                 }
@@ -89,7 +86,7 @@ payment as a resource represents following information
         "meta": {}
     }
 ```
-## POST /payment - SAP payment failure scenarios
+## POST /payment - payment failure scenarios
 
 ## Case 1: SAP error for fraud indicated customer.
 
@@ -105,7 +102,7 @@ payment as a resource represents following information
         "payment": {          
 		"card": "1434552445",                
 		"amount": "58.00",
-		"accountNumber": "600134652"
+		"contractAccount": "600134652"		
           }
       }
 ```
@@ -139,7 +136,7 @@ payment as a resource represents following information
         "payment": {          
 		"card": "1434552445",                
 		"amount": "58.00",
-		"accountNumber": "600134652"
+		"contractAccount": "600134652"
           }
       }
 ```
@@ -159,3 +156,4 @@ payment as a resource represents following information
         "meta": {}
     }
 ```
+
