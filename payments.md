@@ -1,10 +1,10 @@
-## BusinessPayment
+## payment
 
-## Payment collection [/payments]
+## payment [/payment]
 payments endpoint allows you to make a Payment anonymously or by logging in for Britishgas business customers. Responses will be returned in JSON format only.
 
-### BusinessPayment
-Payment as a resource represents following information
+### payment
+payment as a resource represents following information
 
 | Property | Type | As request | As response | Description |
 | :-------------------- | :---------- | :-------------------- | :-------------------- | ------------------------------------------------------------ |
@@ -14,22 +14,22 @@ Payment as a resource represents following information
 | amount | int | `Mandatory` | `Returned always` | It is the amount the customer wish to pay. |
 | contractAccount | String | `Returned always` | It is the account for which the customer is making a payment. |
 
-'Note': cards endpoint for business should be called to save the card or to store the card in memcache before payments resource is being invoked. This would return card(Id) for further payment trasaction reference which is required for payment resource.
+`Note`: cards endpoint for business should be called to save the card or to store the card in memcache before payments resource is being invoked. This would return card(Id) for further payment trasaction reference which is required for payment resource.
 
 `Note`: When the error code returned from the SAP for payment failure status is either of DCCARD_1 ... DCCARD_16 values error code 500 will be returned from the endpoint.
 
-## POST /payments - logged in payment
+## POST /payment - logged in payment
 	post operation on /payments is used to make a payment for logged in customer.
 		
 ### Headers
-	POST /payments
+	POST /payment
 	Authorization: Bearer {accesstoken}
 	cid: 05e230bf-a9cf-4b31-bc54-d3a995f62526
 			
 ### Request (application/json)
   ```json
   {
-        "Payment": {
+        "payment": {
             "card": "42563574674",                
             "amount": "58.00",
             "contractAccount": "600134652"
@@ -42,7 +42,7 @@ Payment as a resource represents following information
     {
         "status": "SUCCESS",
             "data": {
-                "Payment": {
+                "payment": {
 			"id": "003400026738",
 			"card": "42563574674",
 			"amount": "58.00",
@@ -54,16 +54,16 @@ Payment as a resource represents following information
     }
 ```
 
-## POST /payments - anonymous payment
+## POST /payment - anonymous payment
 	post operation on /payments is used to make a payment for anonymous payment.
 ### Headers
-	POST /payments
+	POST /payment
 	cid: 05e230bf-a9cf-4b31-bc54-d3a995f62526
 			
 ### Request (application/json)
   ```json
   {
-        "Payment": {
+        "payment": {
 		"contractAccount": "600134652",
 		"postcode": "LE4 5EX",
 		"card": "42563574674",    
@@ -77,7 +77,7 @@ Payment as a resource represents following information
     {
         "status": "SUCCESS",
             "data": {
-                "Payment": {
+                "payment": {
 		    "id": "003400026738",
                     "contractAccount": "600134652",
 		    "postcode": "LE4 5EX",
@@ -89,12 +89,12 @@ Payment as a resource represents following information
         "meta": {}
     }
 ```
-## POST /payments - SAP payment failure scenarios
+## POST /payment - SAP payment failure scenarios
 
 ## Case 1: SAP error for fraud indicated customer.
 
 ### Headers
-	POST /payments
+	POST /payment
 	Authorization: Bearer {accesstoken}
 	cid: 05e230bf-a9cf-4b31-bc54-d3a995f62526
 	    
@@ -102,7 +102,7 @@ Payment as a resource represents following information
 
   ```json
   {
-        "Payment": {          
+        "payment": {          
 		"card": "1434552445",                
 		"amount": "58.00",
 		"accountNumber": "600134652"
@@ -128,7 +128,7 @@ Payment as a resource represents following information
 ## Case 2: SAP error for payment difference given without items to be cleared.
 
 ### Headers
-	POST /payments
+	POST /payment
 	Authorization: Bearer {accesstoken}
 	cid: 05e230bf-a9cf-4b31-bc54-d3a995f62526
 	    
@@ -136,7 +136,7 @@ Payment as a resource represents following information
 
   ```json
   {
-        "Payment": {          
+        "payment": {          
 		"card": "1434552445",                
 		"amount": "58.00",
 		"accountNumber": "600134652"
