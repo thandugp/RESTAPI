@@ -9,11 +9,11 @@ payment as a resource represents following information
 | Property | Type | As request | As response | Description |
 | :-------------------- | :---------- | :-------------------- | :-------------------- | ------------------------------------------------------------ |
 | id | String | `Not Required` | `Returned always` | It is the payment document number considered as identifier for payment transaction.|
-| card | String | `Manadatory` | `Returned always` | It is the card identifier which is either saved in SAP or saved in memcache in case of payment using saved card or payment using new card details resprectively. |
+| card | String | `Manadatory` | `Returned always` | It is the card identifier which is either saved in SAP or saved in memcache in case of payment using saved card or payment using new card details respectively. |
 | amount | int | `Mandatory` | `Returned always` | It is the amount the customer wish to pay. |
 | contract-account | String | `Returned always` | It is the account for which the customer is making a payment. |
 
-`Note`: cards endpoint for business should be called to save the card or to store the card in memcache before payments resource is being invoked. This would return card(Id) for further payment trasaction reference which is required for payment resource.
+`Note`: cards endpoint[/cards] for business should be called to save the card or to store the card in memcache before payments resource is being invoked. This would return card(Id) for further payment transaction reference which is required for payment resource.
 
 `Note`: When the error code returned from the SAP for payment failure status is either of DCCARD_1 ... DCCARD_16 values error code 500 will be returned from the endpoint.
 
