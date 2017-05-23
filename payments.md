@@ -11,7 +11,7 @@ payment as a resource represents following information
 | id | String | `Not Required` | `Returned always` | It is the payment document number considered as identifier for payment transaction.|
 | card | String | `Manadatory` | `Returned always` | It is the card identifier which is either saved in SAP or saved in memcache in case of payment using saved card or payment using new card details respectively. |
 | amount | int | `Mandatory` | `Returned always` | It is the amount the customer wish to pay. |
-| contract-account | String | `Returned always` | It is the account for which the customer is making a payment. |
+| contract-account | String | `Mandatory` | `Returned always` | It is the account for which the customer is making a payment. |
 
 `Note`: cards endpoint[/cards] for business should be called to save the card or to store the card in memcache before payments resource is being invoked. This would return card(Id) for further payment transaction reference which is required for payment resource.
 
