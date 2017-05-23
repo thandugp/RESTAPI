@@ -9,9 +9,9 @@ payment as a resource represents following information
 | Property | Type | As request | As response | Description |
 | :-------------------- | :---------- | :-------------------- | :-------------------- | ------------------------------------------------------------ |
 | id | String | `Not Required` | `Returned always` | It is the payment document number considered as identifier for payment transaction.|
-| card | String | `Manadatory` | `Returned always` | It is the card identifier used for making payment. |
+| card | String | `Manadatory` | `Returned always` | It is the card identifier which is either saved in SAP or saved in memcache in case of payment using saved card or payment using new card details resprectively. |
 | amount | int | `Mandatory` | `Returned always` | It is the amount the customer wish to pay. |
-| contractAccount | String | `Returned always` | It is the account for which the customer is making a payment. |
+| contract-account | String | `Returned always` | It is the account for which the customer is making a payment. |
 
 `Note`: cards endpoint for business should be called to save the card or to store the card in memcache before payments resource is being invoked. This would return card(Id) for further payment trasaction reference which is required for payment resource.
 
@@ -24,21 +24,30 @@ payment as a resource represents following information
 	POST /payment
 	Authorization: Bearer {accesstoken}
 	cid: 05e230bf-a9cf-4b31-bc54-d3a995f62526
+	Content-Type: application/vnd.api+json
+	Accept: application/vnd.api+json
 			
-### Request (application/json)
+### Request 
+
   ```json
   {
-        "payment": {
-            "card": "42563574674",                
-            "amount": "58.00",
-            "contractAccount": "600134652"
-          }
+	"jsonapi": {
+	"version": "1.0"
+	},
+	"payment": {
+		"card": "42563574674",                
+		"amount": "58.00",
+		"contractAccount": "600134652"
+	}
       }
 ```
-### Response 200 (application/json) - successful payment
+### Response 200 (application/vnd.api+json) - successful payment
 
 ```json
     {
+        "jsonapi": {
+            "version": "1.0"
+        },
         "status": "SUCCESS",
             "data": {
                 "payment": {
@@ -58,10 +67,16 @@ payment as a resource represents following information
 ### Headers
 	POST /payment
 	cid: 05e230bf-a9cf-4b31-bc54-d3a995f62526
+	Content-Type: application/vnd.api+json
+	Accept: application/vnd.api+json
 			
-### Request (application/json)
+### Request
+	
   ```json
   {
+        "jsonapi": {
+            "version": "1.0"
+        },
         "payment": {
 		"contractAccount": "600134652",
 		"card": "42563574674",    
@@ -69,10 +84,13 @@ payment as a resource represents following information
           }
       }
 ```
-### Response 200 (application/json) - successful payment
+### Response 200 (application/vnd.api+json) - successful payment
 
 ```json
     {
+        "jsonapi": {
+            "version": "1.0"
+        },
         "status": "SUCCESS",
             "data": {
                 "payment": {
@@ -94,11 +112,16 @@ payment as a resource represents following information
 	POST /payment
 	Authorization: Bearer {accesstoken}
 	cid: 05e230bf-a9cf-4b31-bc54-d3a995f62526
+	Content-Type: application/vnd.api+json
+	Accept: application/vnd.api+json
 	    
-### Request (application/json)
+### Request 
 
   ```json
   {
+        "jsonapi": {
+            "version": "1.0"
+        },
         "payment": {          
 		"card": "1434552445",                
 		"amount": "58.00",
@@ -107,10 +130,13 @@ payment as a resource represents following information
       }
 ```
 
-### Response 500 (application/json)
+### Response 500 (application/vnd.api+json)
 
 ```json
     {
+        "jsonapi": {
+            "version": "1.0"
+        },
         "status": "ERROR",
         "data": {},
             "errors": [
@@ -128,11 +154,16 @@ payment as a resource represents following information
 	POST /payment
 	Authorization: Bearer {accesstoken}
 	cid: 05e230bf-a9cf-4b31-bc54-d3a995f62526
+	Content-Type: application/vnd.api+json
+	Accept: application/vnd.api+json
 	    
-### Request (application/json)
+### Request 
 
   ```json
   {
+        "jsonapi": {
+            "version": "1.0"
+        },
         "payment": {          
 		"card": "1434552445",                
 		"amount": "58.00",
@@ -141,10 +172,13 @@ payment as a resource represents following information
       }
 ```
 
-### Response 500 (application/json)
+### Response 500 (application/vnd.api+json)
 
 ```json
     {
+        "jsonapi": {
+            "version": "1.0"
+        },
         "status": "ERROR",
         "data": {},
             "errors": [
