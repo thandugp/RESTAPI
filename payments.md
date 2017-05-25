@@ -9,11 +9,12 @@ payment as a resource represents following information
 | Property | Type | As request | As response | Description |
 | :-------------------- | :---------- | :-------------------- | :-------------------- | ------------------------------------------------------------ |
 | id | String | `Not Required` | `Returned always` | It is the payment document number considered as identifier for payment transaction.|
-| card | String | `Manadatory` | `Returned always` | It is the card identifier which is either saved in SAP or saved in memcache in case of payment using saved card or payment using new card details respectively. |
+| card-details | String | `Manadatory` | `Returned always` | It is the card token which has encrypted saved card id in case of save card payment or encrypted card details in case of new card payment. |
 | amount | int | `Mandatory` | `Returned always` | It is the amount the customer wish to pay. |
 | contract-account | String | `Mandatory` | `Returned always` | It is the account for which the customer is making a payment. |
+| email-address | `Optional` | `Returned always` | It is the email address to which email will be sent for payment success or failure for anoymous payment. |
+| save-card-indicator | `Optional` | `Returned always` | It is an identifier that as value 'X' in case card details have to be stored. |
 
-`Note`: cards endpoint[/cards] for business should be called to save the card or to store the card in memcache before payments resource is being invoked. This would return card(Id) for further payment transaction reference which is required for payment resource.
 
 `Note`: When the error code returned from the SAP for payment failure status is either of DCCARD_1 ... DCCARD_16 values error code 500 will be returned from the endpoint.
 
@@ -31,9 +32,6 @@ payment as a resource represents following information
 
   ```json
   {
-	"jsonapi": {
-	"version": "1.0"
-	},
 	"payment": {
 		"card": "42563574674",                
 		"amount": "58.00",
@@ -74,9 +72,6 @@ payment as a resource represents following information
 	
   ```json
   {
-        "jsonapi": {
-            "version": "1.0"
-        },
         "payment": {
 		"contractAccount": "600134652",
 		"card": "42563574674",    
@@ -119,9 +114,6 @@ payment as a resource represents following information
 
   ```json
   {
-        "jsonapi": {
-            "version": "1.0"
-        },
         "payment": {          
 		"card": "1434552445",                
 		"amount": "58.00",
@@ -161,9 +153,6 @@ payment as a resource represents following information
 
   ```json
   {
-        "jsonapi": {
-            "version": "1.0"
-        },
         "payment": {          
 		"card": "1434552445",                
 		"amount": "58.00",
